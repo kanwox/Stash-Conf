@@ -1,4 +1,4 @@
-﻿# ==========================================================
+# ==========================================================
 # Stash 配置文件
 # ==========================================================
 
@@ -11,6 +11,7 @@ tcp-concurrent: true
 # ------------------ 代理提供者 ------------------
 proxy-providers:
   All:
+    type: http
     url: "你的真实订阅链接"
     interval: 86400
     path: ./all.yaml
@@ -23,10 +24,9 @@ dns:
   ipv6: false
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  use-hosts: true
   # DNS 上游统一使用 DoH，避免普通 DNS 查询通过明文 UDP 发出。
   default-nameserver:
-    - https://223.5.5.5/dns-query
+    - 223.5.5.5
   proxy-server-nameserver:
     - https://223.5.5.5/dns-query
     - https://doh.pub/dns-query
