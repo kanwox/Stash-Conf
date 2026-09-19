@@ -4,7 +4,7 @@
 
 
 # ------------------ 基础设置 ------------------
-ipv6: false
+# IPv6 不写死：按官方说明 Stash 会依据系统返回的 IPv4/IPv6 状态自动选择策略。
 tcp-concurrent: true
 
 
@@ -21,17 +21,19 @@ proxy-providers:
 # ------------------ DNS ------------------
 dns:
   enable: true
-  ipv6: false
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  # DNS 上游统一使用 DoH，避免普通 DNS 查询通过明文 UDP 发出。
+  # default-nameserver 只负责 bootstrap：解析下面加密 DNS 服务器的域名。
+  # 官方要求除 system 外此处必须使用 IP，所以这一条仍是明文查询，无法避免。
   default-nameserver:
     - 223.5.5.5
+  # 解析代理服务器域名走独立链路，不跟随代理规则；只留 1 个以降低并发查询。
   proxy-server-nameserver:
-    - https://223.5.5.5/dns-query
-    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  # 官方建议移动设备配置 1~2 个 DNS 服务器，这里取上限 2 个，兼顾容错与功耗。
+  # 注意 DoH 地址的主机名必须用域名，IP 形式会因 TLS 证书不匹配而校验失败。
   nameserver:
-    - https://223.5.5.5/dns-query
+    - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
   fake-ip-filter:
     - '*.lan'
@@ -338,11 +340,7 @@ rule-providers:
 
 # ------------------ 分流规则 ------------------
 rules:
-  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
-  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
-  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
-  - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
-  - IP-CIDR,169.254.0.0/16,DIRECT,no-resolve
+  # 私网 IPv4 段已移除：fake-ip 下应用拿到的是 198.18.0.0/16，出口由域名决定，这几条基本不会被命中。
   - IP-CIDR6,::1/128,DIRECT,no-resolve
   - IP-CIDR6,fc00::/7,DIRECT,no-resolve
   - IP-CIDR6,fe80::/10,DIRECT,no-resolve
