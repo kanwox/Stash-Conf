@@ -15,24 +15,21 @@ proxy-providers:
 # ------------------ DNS ------------------
 # fake-ip 是 Stash 内置默认行为，无需显式开启。
 dns:
-  # 显式声明允许解析 AAAA 记录；不显式声明时行为不确定，改为 false 可彻底避免 IPv6 直连绕过代理的风险。
+  # 显式声明允许解析 AAAA 记录
   ipv6: true
   # 解析下面加密 DNS 服务器域名用，除 system 外必须是 IP。
   default-nameserver:
     - 223.5.5.5
-  # 通用 nameserver 保持国内可直连的服务器：订阅域名的解析发生在代理建立之前，
-  # 这时候还没有隧道可走，如果通用 nameserver 填了在当前网络下直连不通的境外地址
-  # （比如 1.1.1.1/8.8.8.8），订阅会直接下载失败、策略组不加载任何节点。
+  # 通用 nameserver 保持国内可直连的服务器
   nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
-  # geosite:cn 写法已确认在此 Stash 安卓测试版上可用：国内域名单独指回国内解析器，
-  # 保留 CDN 就近调度的准确性，不受上面通用解析器影响。
+  # 国内域名单独指回国内解析器，保留 CDN 就近调度准确性
   nameserver-policy:
     'geosite:cn':
       - 223.5.5.5
       - 119.29.29.29
-  # 单独给代理服务器域名解析开一条不经规则转发的链路，避免递归解析。
+  # 代理服务器域名解析专用链路
   proxy-server-nameserver:
     - 223.5.5.5
     - https://dns.alidns.com/dns-query
@@ -53,8 +50,6 @@ dns:
     - 'ntp.aliyun.com'
     - 'ntp.tencent.com'
     - 'ntp.ntsc.ac.cn'
-    - '*.n.n.srv.nintendo.net'
-    - 'lens.l.google.com'
 
 
 # ------------------ 策略组 ------------------
@@ -64,12 +59,10 @@ proxy-groups:
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png
     proxies: [HK, JP, SG, TW, US, 静态, DIRECT]
 
-
   - name: 静态
     type: select
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Static.png
     use: [All]
-
 
   - name: AI
     type: select
@@ -77,13 +70,11 @@ proxy-groups:
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
-
   - name: Apple
     type: select
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Apple.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
-
 
   - name: GitHub
     type: select
@@ -91,13 +82,11 @@ proxy-groups:
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
-
   - name: Google
     type: select
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
-
 
   - name: Microsoft
     type: select
@@ -105,13 +94,11 @@ proxy-groups:
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
-
   - name: Spotify
     type: select
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Spotify.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
-
 
   - name: Telegram
     type: select
@@ -119,13 +106,11 @@ proxy-groups:
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
-
   - name: TikTok
     type: select
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/TikTok.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
-
 
   - name: TV
     type: select
@@ -133,13 +118,11 @@ proxy-groups:
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
-
   - name: Twitch
     type: select
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitch.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
-
 
   - name: X
     type: select
@@ -147,13 +130,11 @@ proxy-groups:
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
-
   - name: YouTube
     type: select
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
-
 
   - name: HK
     type: url-test
@@ -162,8 +143,8 @@ proxy-groups:
     include-all: true
     filter: '(?i)(香港|九龙|🇭🇰|(^|[^A-Za-z])HK([^A-Za-z]|$)|(^|[^A-Za-z])HKG([^A-Za-z]|$)|Hong[ -]?Kong)'
     interval: 300
+    tolerance: 50
     lazy: true
-
 
   - name: JP
     type: url-test
@@ -172,8 +153,8 @@ proxy-groups:
     include-all: true
     filter: '(?i)(日本|东京|東京|大阪|名古屋|福冈|🇯🇵|(^|[^A-Za-z])JP([^A-Za-z]|$)|(^|[^A-Za-z])JPN([^A-Za-z]|$)|Japan)'
     interval: 300
+    tolerance: 50
     lazy: true
-
 
   - name: SG
     type: url-test
@@ -182,8 +163,8 @@ proxy-groups:
     include-all: true
     filter: '(?i)(新加坡|狮城|獅城|🇸🇬|(^|[^A-Za-z])SG([^A-Za-z]|$)|(^|[^A-Za-z])SGP([^A-Za-z]|$)|Singapore)'
     interval: 300
+    tolerance: 50
     lazy: true
-
 
   - name: TW
     type: url-test
@@ -192,8 +173,8 @@ proxy-groups:
     include-all: true
     filter: '(?i)(台湾|台灣|台北|新北|台中|高雄|(^|[^A-Za-z])TW([^A-Za-z]|$)|(^|[^A-Za-z])TWN([^A-Za-z]|$)|Taiwan)'
     interval: 300
+    tolerance: 50
     lazy: true
-
 
   - name: US
     type: url-test
@@ -202,6 +183,7 @@ proxy-groups:
     include-all: true
     filter: '(?i)(美国|美國|美西|美东|达拉斯|芝加哥|拉斯维加斯|洛杉矶|洛杉磯|圣何塞|聖何塞|硅谷|矽谷|西雅图|西雅圖|纽约|紐約|🇺🇸|(^|[^A-Za-z])US([^A-Za-z]|$)|(^|[^A-Za-z])USA([^A-Za-z]|$)|United[ -]?States)'
     interval: 300
+    tolerance: 50
     lazy: true
 
 
@@ -352,5 +334,6 @@ rules:
   - RULE-SET,apple-domain,Apple
   - RULE-SET,microsoft-domain,Microsoft
   - RULE-SET,cn-domain,DIRECT
-  - GEOIP,CN,DIRECT
+  # 阻断 Fake-IP 反向解析导致的信息泄露
+  - GEOIP,CN,DIRECT,no-resolve
   - MATCH,主代理
