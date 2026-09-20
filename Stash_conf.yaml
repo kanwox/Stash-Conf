@@ -15,13 +15,23 @@ proxy-providers:
 # ------------------ DNS ------------------
 # fake-ip 是 Stash 内置默认行为，无需显式开启。
 dns:
+  # 显式声明允许解析 AAAA 记录；不显式声明时行为不确定，改为 false 可彻底避免 IPv6 直连绕过代理的风险。
+  ipv6: true
   # 解析下面加密 DNS 服务器域名用，除 system 外必须是 IP。
   default-nameserver:
     - 223.5.5.5
-  # 移动设备建议 1~2 个 DNS 服务器。
+  # 通用 nameserver 保持国内可直连的服务器：订阅域名的解析发生在代理建立之前，
+  # 这时候还没有隧道可走，如果通用 nameserver 填了在当前网络下直连不通的境外地址
+  # （比如 1.1.1.1/8.8.8.8），订阅会直接下载失败、策略组不加载任何节点。
   nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
+  # geosite:cn 写法已确认在此 Stash 安卓测试版上可用：国内域名单独指回国内解析器，
+  # 保留 CDN 就近调度的准确性，不受上面通用解析器影响。
+  nameserver-policy:
+    'geosite:cn':
+      - 223.5.5.5
+      - 119.29.29.29
   # 单独给代理服务器域名解析开一条不经规则转发的链路，避免递归解析。
   proxy-server-nameserver:
     - 223.5.5.5
@@ -311,6 +321,12 @@ rule-providers:
     path: ./rules/telegram-ip.mrs
     url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs"
     interval: 2592000
+  cn-domain:
+    behavior: domain
+    format: mrs
+    path: ./rules/cn-domain.mrs
+    url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
+    interval: 2592000
 
 
 # ------------------ 分流规则 ------------------
@@ -335,5 +351,6 @@ rules:
   - RULE-SET,google-domain,Google
   - RULE-SET,apple-domain,Apple
   - RULE-SET,microsoft-domain,Microsoft
+  - RULE-SET,cn-domain,DIRECT
   - GEOIP,CN,DIRECT
   - MATCH,主代理
