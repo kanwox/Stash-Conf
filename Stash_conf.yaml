@@ -1,6 +1,5 @@
 # Stash 配置文件
 mode: rule
-log-level: warning
 
 
 # ------------------ 代理提供者 ------------------
@@ -20,6 +19,7 @@ dns:
   # 解析下面加密 DNS 服务器域名用，除 system 外必须是 IP。
   default-nameserver:
     - 223.5.5.5
+    - 119.29.29.29
   # 通用 nameserver 保持国内可直连的服务器
   nameserver:
     - https://dns.alidns.com/dns-query
@@ -50,88 +50,107 @@ dns:
     - 'ntp.aliyun.com'
     - 'ntp.tencent.com'
     - 'ntp.ntsc.ac.cn'
+    # Windows 连通性检测
+    - '+.msftconnecttest.com'
+    - '+.msftncsi.com'
+    # QQ 快速登录检测
+    - 'localhost.ptlogin2.qq.com'
 
 
 # ------------------ 策略组 ------------------
 proxy-groups:
   - name: 主代理
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png
     proxies: [HK, JP, SG, TW, US, 静态, DIRECT]
 
   - name: 静态
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Static.png
     use: [All]
 
   - name: AI
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ChatGPT.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
   - name: Apple
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Apple.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
   - name: GitHub
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
   - name: Google
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
   - name: Microsoft
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Microsoft.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
   - name: Spotify
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Spotify.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
   - name: Telegram
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
   - name: TikTok
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/TikTok.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
   - name: TV
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Netflix.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
   - name: Twitch
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitch.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
   - name: X
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitter.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
 
   - name: YouTube
     type: select
+    lazy: true # 未被使用时跳过定时延迟测试
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png
     proxies: [主代理, HK, JP, SG, TW, US, DIRECT]
     use: [All]
@@ -315,7 +334,7 @@ rule-providers:
 rules:
   - RULE-SET,lan-cidr,DIRECT,no-resolve
   - DST-PORT,123,DIRECT
-  - RULE-SET,ads-domain,REJECT,no-track
+  - RULE-SET,ads-domain,REJECT
   - RULE-SET,spotify-domain,Spotify
   - RULE-SET,youtube-domain,YouTube
   - RULE-SET,twitch-domain,Twitch
@@ -334,6 +353,6 @@ rules:
   - RULE-SET,apple-domain,Apple
   - RULE-SET,microsoft-domain,Microsoft
   - RULE-SET,cn-domain,DIRECT
-  # 阻断 Fake-IP 反向解析导致的信息泄露
+  # 目标是纯 IP 且归属 CN → 直连；no-resolve 表示不为匹配此规则而解析域名
   - GEOIP,CN,DIRECT,no-resolve
   - MATCH,主代理
