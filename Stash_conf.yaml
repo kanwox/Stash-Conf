@@ -1,7 +1,6 @@
 # Stash 配置文件
 mode: rule
 
-
 # ------------------ 代理提供者 ------------------
 proxy-providers:
   All:
@@ -9,7 +8,6 @@ proxy-providers:
     interval: 86400
     path: ./all.yaml
     filter: '^(?!.*(流量|时间|重置|到期|过期|官网|网址|地址|客服|订阅|通知|群组|有效|本站|防止)).*$'
-
 
 # ------------------ DNS ------------------
 dns:
@@ -62,12 +60,11 @@ dns:
     - '+.stun.playstation.net'
     - '+.xboxlive.com'
 
-
 # ------------------ 策略组 ------------------
 proxy-groups:
   - name: 主代理
     type: select
-    lazy: true # 未被使用时跳过定时延迟测试
+    lazy: true
     icon: https://cdn.jsdmirror.com/gh/Koolson/Qure@master/IconSet/Color/Proxy.png
     proxies: [HK, JP, SG, TW, US, 静态, DIRECT]
 
@@ -211,7 +208,6 @@ proxy-groups:
     tolerance: 50
     lazy: true
 
-
 # ------------------ 规则集 ------------------
 rule-providers:
   lan-cidr:
@@ -231,110 +227,121 @@ rule-providers:
     format: mrs
     path: ./rules/spotify-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/spotify.mrs"
-    interval: 2592000
+    interval: 604800
   youtube-domain:
     behavior: domain
     format: mrs
     path: ./rules/youtube-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/youtube.mrs"
-    interval: 2592000
+    interval: 604800
   twitch-domain:
     behavior: domain
     format: mrs
     path: ./rules/twitch-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitch.mrs"
-    interval: 2592000
+    interval: 604800
   twitter-domain:
     behavior: domain
     format: mrs
     path: ./rules/twitter-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitter.mrs"
-    interval: 2592000
+    interval: 604800
   tiktok-domain:
     behavior: domain
     format: mrs
     path: ./rules/tiktok-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/tiktok.mrs"
-    interval: 2592000
+    interval: 604800
   telegram-domain:
     behavior: domain
     format: mrs
     path: ./rules/telegram-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs"
-    interval: 2592000
+    interval: 604800
   github-domain:
     behavior: domain
     format: mrs
     path: ./rules/github-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/github.mrs"
-    interval: 2592000
+    interval: 604800
   ai-domain:
     behavior: domain
     format: mrs
     path: ./rules/ai-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ai-!cn.mrs"
-    interval: 2592000
+    interval: 604800
   netflix-domain:
     behavior: domain
     format: mrs
     path: ./rules/netflix-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/netflix.mrs"
-    interval: 2592000
+    interval: 604800
   disney-domain:
     behavior: domain
     format: mrs
     path: ./rules/disney-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/disney.mrs"
-    interval: 2592000
+    interval: 604800
   primevideo-domain:
     behavior: domain
     format: mrs
     path: ./rules/primevideo-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/primevideo.mrs"
-    interval: 2592000
+    interval: 604800
   appletv-domain:
     behavior: domain
     format: mrs
     path: ./rules/appletv-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple-tvplus.mrs"
-    interval: 2592000
+    interval: 604800
   hbo-domain:
     behavior: domain
     format: mrs
     path: ./rules/hbo-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/hbo.mrs"
-    interval: 2592000
+    interval: 604800
   google-domain:
     behavior: domain
     format: mrs
     path: ./rules/google-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs"
-    interval: 2592000
+    interval: 604800
   apple-domain:
     behavior: domain
     format: mrs
     path: ./rules/apple-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple.mrs"
-    interval: 2592000
+    interval: 604800
   microsoft-domain:
     behavior: domain
     format: mrs
     path: ./rules/microsoft-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft.mrs"
-    interval: 2592000
+    interval: 604800
   telegram-ip:
     behavior: ipcidr
     format: mrs
     path: ./rules/telegram-ip.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs"
-    interval: 2592000
+    interval: 604800
+  proxy-domain:
+    behavior: domain
+    format: mrs
+    path: ./rules/proxy-domain.mrs
+    url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs"
+    interval: 604800
   cn-domain:
     behavior: domain
     format: mrs
     path: ./rules/cn-domain.mrs
     url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs"
-    interval: 2592000
-
+    interval: 604800
+  cn-ip:
+    behavior: ipcidr
+    format: mrs
+    path: ./rules/cn-ip.mrs
+    url: "https://cdn.jsdmirror.com/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs"
+    interval: 604800
 
 # ------------------ 分流规则 ------------------
 rules:
@@ -358,7 +365,7 @@ rules:
   - RULE-SET,google-domain,Google
   - RULE-SET,apple-domain,Apple
   - RULE-SET,microsoft-domain,Microsoft
+  - RULE-SET,proxy-domain,主代理
   - RULE-SET,cn-domain,DIRECT
-  # 目标是纯 IP 且归属 CN → 直连；no-resolve 表示不为匹配此规则而解析域名
-  - GEOIP,CN,DIRECT,no-resolve
+  - RULE-SET,cn-ip,DIRECT,no-resolve
   - MATCH,主代理
