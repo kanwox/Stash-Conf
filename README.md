@@ -12,8 +12,6 @@
 https://raw.githubusercontent.com/kanwox/Stash-Conf/main/Stash_conf.yaml
 ```
 
-> **注意**：导入配置后，请在 `proxy-providers` -> `All` 中将 `你的真实订阅链接` 替换为您个人的机场节点订阅地址。
-
 ---
 
 ## ⚡️ 核心特性一览
