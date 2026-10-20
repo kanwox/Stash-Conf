@@ -367,5 +367,5 @@ rules:
   - RULE-SET,microsoft-domain,Microsoft
   - RULE-SET,proxy-domain,主代理
   - RULE-SET,cn-domain,DIRECT
-  - RULE-SET,cn-ip,DIRECT,no-resolve
+  - RULE-SET,cn-ip,DIRECT
   - MATCH,主代理
